@@ -14,9 +14,6 @@ class VMap(dimension: Dimension) extends Layer(dimension) {
   private final val viewWidth: Int = this.getViewWidth
   private final val viewHeight: Int = this.getViewHeight
 
-  println(viewWidth)
-  println(viewHeight)
-
   // set the layer to display all tiles as empty as black
 
   for {
@@ -48,7 +45,6 @@ class VMap(dimension: Dimension) extends Layer(dimension) {
       y <- Range(0, viewHeight)
       x <- Range(0, viewWidth)
     } {
-      println(s"x: $x \t y: $y")
       val mapTile = mapTiles(x)(y)
       val mapTileSprite = mapTile.sprite
       val layerTile = this.tiles.getTileAt(x, y)

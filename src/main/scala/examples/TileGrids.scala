@@ -3,8 +3,6 @@ package examples
 import com.valkryst.VTerminal.Screen
 import com.valkryst.VTerminal.Tile
 import java.awt._
-import java.io.IOException
-
 
 object TileGrids extends App {
   val screen = new Screen

@@ -1,8 +1,6 @@
 package examples
 
 import com.valkryst.VTerminal.Screen
-import java.io.IOException
-
 
 object HelloWorld extends App {
     val screen = new Screen
