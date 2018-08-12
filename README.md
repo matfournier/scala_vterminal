@@ -4,7 +4,7 @@ Eventually this will be superceded by the [classic python roguelike tutorial](ht
 
 # SETUP
 
-I'm assuming you are using IntelliJ and making a new SBT project so your build.sbt should lok like this 
+I'm assuming you are using IntelliJ and making a new SBT project so your build.sbt should look like this 
 
 ```scala
 name := "scalarogue"
@@ -151,8 +151,6 @@ We have any random sprite defined by the user:
 
 ```scala
 case class CustomSprite(character: Char, backgroundColor: Color, foregroundColor: Color) extends Sprite
-
-}
 ```
 
 Next we need the MapTile which is simpler than the java example: 
