@@ -1,12 +1,17 @@
-package examples.Week3
+package examples.shared
 
 import java.awt.Color
+
 import com.valkryst.VTerminal.misc.ColorFunctions
 
 trait Sprite {
   def character: Char
   def backgroundColor: Color
   def foregroundColor: Color
+
+  def darkBackgroundColor: Color = ColorFunctions.shade(backgroundColor, 0.5)
+  def darkForegroundColor: Color = ColorFunctions.shade(foregroundColor, 0.5)
+
 }
 
 object DefaultSprites {
@@ -55,7 +60,4 @@ object DefaultSprites {
 }
 
 // not going to bother w/ null handling here
-case class CustomSprite(character: Char, backgroundColor: Color, foregroundColor: Color) extends Sprite {
-  val darkBackgroundColor: Color = ColorFunctions.shade(backgroundColor, 0.5)
-  val darkForegroundColor: Color = ColorFunctions.shade(foregroundColor, 0.5)
-}
+case class CustomSprite(character: Char, backgroundColor: Color, foregroundColor: Color) extends Sprite
