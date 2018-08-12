@@ -1,4 +1,4 @@
-This is a simple guide to get up and running with [Vterminal](https://github.com/Valkryst/VTerminal) in Scala.  *This is not written in idiomatic scala* and is more or less the fastest port I could do of the [VTerminal Tutorial Series]. (https://github.com/Valkryst/VTerminal_Tutorial/wiki/%23000---Requirements).  Be prepared for thrown nulls!  I have not written any wrappers in scala for VTerminal yet.
+This is a simple guide to get up and running with [Vterminal](https://github.com/Valkryst/VTerminal) in Scala.  *This is not written in idiomatic scala* and is more or less the fastest port I could do of the [VTerminal Tutorial Series](https://github.com/Valkryst/VTerminal_Tutorial/wiki/%23000---Requirements).  Be prepared for thrown nulls!  I have not written any wrappers in scala for VTerminal yet.
 
 Eventually this will be superceded by the [classic python roguelike tutorial](https://www.reddit.com/r/roguelikedev/wiki/python_tutorial_series) in Scala using VTerminal in an idiomatic style.
 
