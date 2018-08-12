@@ -274,4 +274,130 @@ object Driver {
 }
 ```
 
+# 005 Entity & Player 
+
+[Java link with explanations](https://github.com/Valkryst/VTerminal_Tutorial/wiki/%23005-Entity-&-Player)
+
+I'm starting to deviate here. Valkryst goes with a Class Hierarchy. I find class extension to be fiddly in scala
+so I decided to go with a single Entity type with a [phantom type](https://stackoverflow.com/questions/28247543/motivation-behind-phantom-types)
+to model the Entity so you are either a generic Entity of Entity[Thing] or an Entity[Player].  Depending on where
+this goes in later tutorials, I may have to revisit this if the behavior between them deviates too much.
+
+```scala
+import com.valkryst.VTerminal.Tile
+import com.valkryst.VTerminal.component.Layer
+import java.awt._
+import examples.shared.{DefaultSprites, Sprite}
+
+
+trait EntityTypes
+case object Thing extends EntityTypes
+case object Player extends EntityTypes
+
+trait GenericEntity[T <: EntityTypes] extends Layer {
+  val sprite: Sprite
+  val position: Point
+  val name: String
+  val dimension: Dimension
+
+  def move(dx: Int, dy: Int): GenericEntity[T]
+
+  def setPosition(pos: Point): GenericEntity[T]
+
+  def getPosition: Point
+
+}
+
+/**
+  * We deviate pretty hard from the tutorial here!
+  * We use a phantom type on the Entity to differentiate between Things and the Player
+  * So you are either an Entity[Thing] or an Entity[Player]
+  */
+
+case class Entity[T <: EntityTypes](sprite: Sprite,
+                  position: Point,
+                  name: String,
+                  dimension: Dimension) extends Layer(dimension) with GenericEntity[T] {
+
+
+  this.getTiles.setPosition(position)
+
+  private val tile: Tile = this.getTileAt(new Point(0,0))
+
+  tile.setCharacter(sprite.character)
+  tile.setForegroundColor(sprite.foregroundColor)
+  tile.setBackgroundColor(sprite.backgroundColor)
+
+
+  def move(dx: Int, dy: Int): Entity[T] = {
+    val newX = dx + this.getTiles.getXPosition
+    val newY = dy + this.getTiles.getYPosition
+    this.copy(position = new Point(newX, newY))
+  }
+
+  def setPosition(pos: Point): Entity[T] = {
+    this.copy(position = pos)
+  }
+
+  val getPosition: Point = new Point(this.getTiles.getXPosition, this.getTiles.getYPosition)
+}
+
+object EntityCreator {
+
+  def makeThing(sprite: Sprite,
+               position: Point,
+               name: String): Entity[Thing.type] = {
+    val dim = new Dimension(1,1)
+    Entity(sprite, position, name, dim)
+  }
+
+  def makePlayer(position: Point,
+                name: String): Entity[Player.type] = {
+    val dim = new Dimension(1,1)
+    Entity(DefaultSprites.PLAYER, position, name, dim)
+  }
+}
+
+```
+
+And for Driver
+
+```scala
+package examples.part5
+
+import java.awt.{Dimension, Point}
+
+import com.valkryst.VTerminal.Screen
+import com.valkryst.VTerminal.font.{Font, FontLoader}
+import examples.shared.{Room, VMap}
+
+object Driver {
+  def main(args: Array[String]): Unit = {
+
+    val font: Font = FontLoader.loadFontFromJar("Fonts/DejaVu Sans Mono/18pt/bitmap.png",
+                                                "Fonts/DejaVu Sans Mono/18pt/data.fnt", 1)
+
+    val screen = new Screen(81, 41, font)
+    screen.addCanvasToFrame()
+    val x = 80
+    val y = 40
+    val map = new VMap(new Dimension(x, y))
+    screen.addComponent(map)
+
+    val position = new Point(10, 10)
+    val dimensions = new Dimension(10, 5)
+    val room = new Room(position, dimensions)
+    room.carve(map)
+
+    screen.draw()
+
+    val player: Entity[Player.type] = EntityCreator.makePlayer(new Point(12,12), "Gygax")
+    map.addComponent(player)
+
+    screen.draw()
+  }
+}
+
+```
+
 
